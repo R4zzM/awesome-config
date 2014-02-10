@@ -40,6 +40,8 @@ rcsupport.dbg("Starting services...")
 if rcsupport.is_elx() then
   rcsupport.run_once("dropbox start")
   rcsupport.run_once("pidgin")
+  rcsupport.run_once("xscreensaver -no-splash")
+  rcsupport.run_once("python ~/bin/xscreensaver-pidgin-client")
 end
 
 -- {{{ Error handling
