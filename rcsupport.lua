@@ -25,6 +25,31 @@ function rcsupport.dbg(msg)
   end
 end
 
+-- Show informational messages
+function rcsupport.info(msg)
+    naughty.notify({ preset = naughty.config.presets.easy,
+                     title = "Info",
+                     text = msg })
+end
+
+function rcsupport.is_touchpad_enabled()
+    status = awful.util.pread("synclient -l | grep -c 'TouchpadOff.*=.*0'")
+    -- Finding out that it should be "1\n" took quite some time...
+    if status == "1\n" then
+        return true
+    else
+        return false
+    end
+end
+
+function rcsupport.touchpad_enable()
+    awful.util.spawn("synclient TouchpadOff=0", false)
+end
+
+function rcsupport.touchpad_disable()
+    awful.util.spawn("synclient TouchpadOff=1", false)
+end
+
 -- Returns hostname as given by the posix `hostname` command
 function rcsupport.get_hostname()
   handle = io.popen("hostname")

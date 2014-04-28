@@ -372,7 +372,18 @@ globalkeys = awful.util.table.join(
     --               awful.util.getdir("cache") .. "/history_eval")
     --           end),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "p", function() menubar.show() end),
+    awful.key({ modkey }, "/", 
+        function()
+            enabled = rcsupport.is_touchpad_enabled()
+            if enabled then
+                rcsupport.touchpad_disable()
+                rcsupport.info("Touchpad disabled!")
+            else
+                rcsupport.touchpad_enable()
+                rcsupport.info("Touchpad enabled!")
+            end
+        end)
 )
 
 clientkeys = awful.util.table.join(
