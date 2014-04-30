@@ -7,29 +7,29 @@ local debug = false
 
 -- Control printouts from dbg function
 function rcsupport.enable_dbg()
-  debug = true
+    debug = true
 end
 
 -- Control printouts from dbg function
 function rcsupport.disable_dbg()
-  debug = false
+    debug = false
 end
 
 -- Convenience function when debugging
 -- Depends on the debug variable
 function rcsupport.dbg(msg)
-  if debug then
-    naughty.notify({ preset = naughty.config.presets.easy,
-                     title = "Debug",
-                     text = msg })
-  end
+    if debug then
+        naughty.notify({ preset = naughty.config.presets.easy,
+        title = "Debug",
+        text = msg })
+    end
 end
 
 -- Show informational messages
 function rcsupport.info(msg)
     naughty.notify({ preset = naughty.config.presets.easy,
-                     title = "Info",
-                     text = msg })
+    title = "Info",
+    text = msg })
 end
 
 function rcsupport.is_touchpad_enabled()
@@ -52,30 +52,42 @@ end
 
 -- Returns hostname as given by the posix `hostname` command
 function rcsupport.get_hostname()
-  handle = io.popen("hostname")
-  hostname = io.input(handle):read()
-  return hostname
+    handle = io.popen("hostname")
+    hostname = io.input(handle):read()
+    return hostname
 end
 
 function rcsupport.is_elx()
-  hostname = rcsupport.get_hostname()
-  start = hostname.sub(hostname, 1, 3)
-  if start == "elx" then
-    return true
-  else
-    return false
-  end
+    hostname = rcsupport.get_hostname()
+    start = hostname.sub(hostname, 1, 3)
+    if start == "elx" then
+        return true
+    else
+        return false
+    end
 end
 
 -- Used to autostart applications and is insensitive to awesome restarts
 -- Got it from the Awesome wiki.
 function rcsupport.run_once(cmd)
-  findme = cmd
-  firstspace = cmd:find(" ")
-  if firstspace then
-    findme = cmd:sub(0, firstspace-1)
-  end
-  awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+    findme = cmd
+    firstspace = cmd:find(" ")
+    if firstspace then
+        findme = cmd:sub(0, firstspace-1)
+    end
+    awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+end
+
+-- Sets the X11 keyboard layout to US International. 
+function rcsupport.us_intl_kbd_layout()
+    cmd = "setxkbmap -rules evdev -model evdev -layout us -variant intl" 
+    awful.util.spawn(cmd, false)
+end
+
+-- Disable capslock in X11
+function rcsupport.disable_capslock()
+    cmd = "setxkbmap -option caps:none"   
+    awful.util.spawn(cmd, false)
 end
 
 return rcsupport

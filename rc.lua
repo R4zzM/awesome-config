@@ -25,8 +25,12 @@ require("eminent")
 local rcsupport = require("rcsupport")
 
 -- Enable / disable debug messages when loading this file
-rcsupport.enable_dbg()
--- rcsupport.disable_dbg()
+-- rcsupport.enable_dbg()
+rcsupport.disable_dbg()
+
+-- Modify the keyboard
+rcsupport.us_intl_kbd_layout()
+rcsupport.disable_capslock()
 
 rcsupport.dbg("hostname = " .. rcsupport.get_hostname())
 if rcsupport.is_elx() then
@@ -74,7 +78,7 @@ end
 if rcsupport.is_elx() then
   beautiful.init("/home/erasmat/.config/awesome/themes/wabbit/theme.lua")
 else 
-  beautiful.init("/home/rasmus/.config/awesome/themes/hearts/theme.lua")
+  beautiful.init("/home/rasmus/.config/awesome/themes/arch/theme.lua")
 end
 
 -- This is used later as the default terminal and editor to run.
