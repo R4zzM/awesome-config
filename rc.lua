@@ -29,8 +29,8 @@ local rcsupport = require("rcsupport")
 rcsupport.disable_dbg()
 
 -- Modify the keyboard
-rcsupport.us_intl_kbd_layout()
-rcsupport.disable_capslock()
+-- rcsupport.us_intl_kbd_layout()
+-- rcsupport.disable_capslock()
 
 rcsupport.dbg("hostname = " .. rcsupport.get_hostname())
 if rcsupport.is_elx() then
@@ -367,6 +367,7 @@ globalkeys = awful.util.table.join(
     --           function ()
     --               awful.util.spawn("gmrun")
     --           end),
+
 
     -- awful.key({ modkey }, "x",
     --           function ()
