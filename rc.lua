@@ -19,7 +19,7 @@ local menubar = require("menubar")
 local vicious = require("vicious")
 
 -- Eminent library to handle dynamic tags
-require("eminent")
+-- require("eminent")
 
 -- R4zzMs totally awesome support library
 local rcsupport = require("rcsupport")
@@ -136,7 +136,7 @@ else
   for s = 1, screen.count() do
       -- Each screen has its own tag table.
       tags[s] = awful.tag({ rcsupport.get_hostname(), "Internet", "E-mail", 
-                            4, 5, 6, 7, 8, "Wiki" }, s, layouts[1])
+                            "Devel1", "Devel2", "Devel3", "Devel4", "Wiki", "Music" }, s, layouts[1])
   end
 end 
 -- }}}
@@ -202,6 +202,7 @@ vicious.register(bat2, vicious.widgets.bat, "B: $2%", 61, "BAT0")
 vicious.register(batwidget, vicious.widgets.bat, "$2", 61, "BAT0")
 -- Create a wibox for each screen and add it
 mywibox = {}
+mywibox2 = {}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
@@ -266,13 +267,26 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", 
+                               screen = s,
+                               width = "100%",
+                               heigth = "50%"})
+
+    mywibox2[s] = awful.wibox({ position = "bottom", 
+                               screen = s,
+                               width = "100%",
+                               heigth = "50%"})
+
+
+    local bottomlayout = wibox.layout.align.horizontal()
+    bottomlayout:set_middle(mytasklist[s])
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
-    -- left_layout:add(mylauncher)
-    left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
+    -- left_layout:add(mytaglist[s])
+    local middle_layout = wibox.layout.fixed.horizontal()
+    middle_layout:add(mytaglist[s])
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
@@ -291,10 +305,11 @@ for s = 1, screen.count() do
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
     layout:set_left(left_layout)
-    layout:set_middle(mytasklist[s])
+    layout:set_middle(middle_layout)
     layout:set_right(right_layout)
 
     mywibox[s]:set_widget(layout)
+    mywibox2[s]:set_widget(bottomlayout)
 end
 -- }}}
 
