@@ -278,22 +278,16 @@ for s = 1, screen.count() do
                                heigth = "50%"})
 
 
-    local bottomlayout = wibox.layout.align.horizontal()
-    bottomlayout:set_middle(mytasklist[s])
-
-    -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mypromptbox[s])
-    -- left_layout:add(mytaglist[s])
-    local middle_layout = wibox.layout.fixed.horizontal()
-    middle_layout:add(mytaglist[s])
+    left_layout:add(mytaglist[s])
 
-    -- Widgets that are aligned to the right
+    local middle_layout = wibox.layout.fixed.horizontal()
+    middle_layout:fill_space(true)
+    middle_layout:add(mypromptbox[s])
+
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(spacing)
-    -- right_layout:add(batwidget)
-    -- right_layout:add(separator)
     right_layout:add(bat2)
     right_layout:add(separator)
     right_layout:add(volumewidget)
@@ -302,13 +296,16 @@ for s = 1, screen.count() do
     right_layout:add(spacing)
     right_layout:add(mylayoutbox[s])
 
-    -- Now bring it all together (with the tasklist in the middle)
-    local layout = wibox.layout.align.horizontal()
-    layout:set_left(left_layout)
-    layout:set_middle(middle_layout)
-    layout:set_right(right_layout)
+    -- Now bring it all together
+    local toplayout = wibox.layout.align.horizontal()
+    toplayout:set_left(left_layout)
+    toplayout:set_middle(middle_layout)
+    toplayout:set_right(right_layout)
 
-    mywibox[s]:set_widget(layout)
+    local bottomlayout = wibox.layout.align.horizontal()
+    bottomlayout:set_middle(mytasklist[s])
+
+    mywibox[s]:set_widget(toplayout)
     mywibox2[s]:set_widget(bottomlayout)
 end
 -- }}}
