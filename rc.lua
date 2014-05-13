@@ -135,8 +135,16 @@ if rcsupport.is_elx() then
 else 
   for s = 1, screen.count() do
       -- Each screen has its own tag table.
-      tags[s] = awful.tag({ rcsupport.get_hostname() .. " ", " Internet ", " E-mail ", 
-                            " Devel1 ", " Devel2 ", " Devel3 ", " Devel4 ", " Wiki ", " Music" }, s, layouts[1])
+      tagnames = {" Internet ", 
+                  " E-mail ", 
+                  " Wiki ", 
+                  " Music ", 
+                  " Devel1 ", 
+                  " Devel2 ", 
+                  " Devel3 ", 
+                  " Devel4 ", 
+                  " Project Euler "}
+      tags[s] = awful.tag(tagnames, s, layouts[1])
   end
 end 
 -- }}}
@@ -375,19 +383,6 @@ globalkeys = awful.util.table.join(
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
-    -- awful.key({ modkey,           }, "r",
-    --           function ()
-    --               awful.util.spawn("gmrun")
-    --           end),
-
-
-    -- awful.key({ modkey }, "x",
-    --           function ()
-    --               awful.prompt.run({ prompt = "Run Lua code: " },
-    --               mypromptbox[mouse.screen].widget,
-    --               awful.util.eval, nil,
-    --               awful.util.getdir("cache") .. "/history_eval")
-    --           end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
     awful.key({ modkey }, "/", 
@@ -482,13 +477,13 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons } },
     { rule = { class = "Firefox" },
-      properties = { tag = tags[1][2],
+      properties = { tag = tags[1][1],
                      switchtotag = true} },
     { rule = { class = "Thunderbird" },
-      properties = { tag = tags[1][3],
+      properties = { tag = tags[1][2],
                      switchtotag = true} },
     { rule = { class = "Spotify" },
-      properties = { tag = tags[1][9],
+      properties = { tag = tags[1][4],
                      switchtotag = true} },
 }
 -- }}}
