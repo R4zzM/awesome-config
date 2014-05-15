@@ -139,11 +139,11 @@ else
                   " E-mail ", 
                   " Wiki ", 
                   " Music ", 
-                  " Devel1 ", 
-                  " Devel2 ", 
+                  " Dev Any ", 
+                  " Capsd ", 
+                  " Project Euler ", 
                   " Devel3 ", 
-                  " Devel4 ", 
-                  " Project Euler "}
+                  " Devel4 "}
       tags[s] = awful.tag(tagnames, s, layouts[1])
   end
 end 
