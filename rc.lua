@@ -141,8 +141,8 @@ else
                   " Music ", 
                   " Dev Any ", 
                   " Capsd ", 
+                  " CV ", 
                   " Project Euler ", 
-                  " Devel3 ", 
                   " Devel4 "}
       tags[s] = awful.tag(tagnames, s, layouts[1])
   end
