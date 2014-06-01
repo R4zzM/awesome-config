@@ -4,33 +4,34 @@ local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
 require("awful.remote")
-
--- Widget and layout library
 local wibox = require("wibox")
-
--- Theme handling library
 local beautiful = require("beautiful")
-
--- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
 
 -- Vicious library for widgets (not a standard awesome lib))
 local vicious = require("vicious")
 
--- Eminent library to handle dynamic tags
--- require("eminent")
-
 -- R4zzMs totally awesome support library
 local rcsupport = require("rcsupport")
+
+-- Variables
+local terminal = "urxvt"
+local editor = os.getenv("EDITOR") or "vim"
+local editorcmd = terminal .. " -e " .. editor
+local modkey = "Mod4"
+local layouts =
+{
+    awful.layout.suit.floating,
+    awful.layout.suit.tile,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.max,
+    awful.layout.suit.magnifier
+}
 
 -- Enable / disable debug messages when loading this file
 -- rcsupport.enable_dbg()
 rcsupport.disable_dbg()
-
--- Modify the keyboard
--- rcsupport.us_intl_kbd_layout()
--- rcsupport.disable_capslock()
 
 rcsupport.dbg("hostname = " .. rcsupport.get_hostname())
 if rcsupport.is_elx() then
@@ -41,8 +42,8 @@ end
 
 rcsupport.dbg("Starting services...")
 
+rcsupport.run_once("dropbox start")
 if rcsupport.is_elx() then
-  rcsupport.run_once("dropbox start")
   rcsupport.run_once("pidgin")
   rcsupport.run_once("xscreensaver -no-splash")
   rcsupport.run_once("python ~/bin/xscreensaver-pidgin-client")
@@ -73,45 +74,13 @@ do
 end
 -- }}}
 
--- {{{ Variable definitions
--- Themes define colours, icons, and wallpapers
+-- {{{ Theme and Wallpaper
 if rcsupport.is_elx() then
   beautiful.init("/home/erasmat/.config/awesome/themes/wabbit/theme.lua")
 else 
   beautiful.init("/home/rasmus/.config/awesome/themes/arch/theme.lua")
 end
 
--- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
-editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. " -e " .. editor
-
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
-
--- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts =
-{
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
-}
--- }}}
-
--- {{{ Wallpaper
 if beautiful.wallpaper then
     for s = 1, screen.count() do
         gears.wallpaper.maximized(beautiful.wallpaper, s, true)
@@ -120,33 +89,17 @@ end
 -- }}}
 
 -- {{{ Tags
--- Define a tag table which hold all screen tags.
-tags = {}
-
--- There might be a more goodlooking solution to this..
+local tagnames = {}
 if rcsupport.is_elx() then 
-  for s = 1, screen.count() do
-      -- Each screen has its own tag table.
-      tags[s] = awful.tag({ rcsupport.get_hostname(), "Internet", "E-mail", 
-                            "Ctrl & Dmz", 
-                            "Engine", "VNC", "nmxwd", 
-                            "NMX Devel", "Wiki+Spotify" }, s, layouts[1])
-  end
+    tagnames = rcsupport.elxtagnames()
 else 
-  for s = 1, screen.count() do
-      -- Each screen has its own tag table.
-      tagnames = {" Internet ", 
-                  " E-mail ", 
-                  " Wiki ", 
-                  " Music ", 
-                  " Dev Any ", 
-                  " Capsd ", 
-                  " CV ", 
-                  " Project Euler ", 
-                  " Devel4 "}
-      tags[s] = awful.tag(tagnames, s, layouts[1])
-  end
+    tagnames = rcsupport.archtagnames()
 end 
+
+local tags = {}
+for s = 1, screen.count() do
+  tags[s] = awful.tag(tagnames, s, layouts[1])
+end
 -- }}}
 
 -- {{{ Menu
@@ -156,7 +109,7 @@ rcsupport.dbg("Creating menu...")
 -- Create a laucher widget and a main menu
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "edit config", editorcmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
@@ -333,6 +286,10 @@ root.buttons(awful.util.table.join(
 
 rcsupport.dbg("Creating keybindings...")
 
+local editrc = function() 
+    awful.util.spawn_with_shell(editorcmd .. " " .. awesome.conffile)
+end
+
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -349,6 +306,7 @@ globalkeys = awful.util.table.join(
             if client.focus then client.focus:raise() end
         end),
     -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
+    awful.key({ modkey,           }, "e", editrc),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),

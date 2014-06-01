@@ -90,4 +90,32 @@ function rcsupport.disable_capslock()
     awful.util.spawn(cmd, false)
 end
 
+function rcsupport.elxtagnames()
+      tagnames = {" Internet ", 
+                  " E-mail ", 
+                  " Ctrl & Dmz ", 
+                  " Engine ", 
+                  " VNC ", 
+                  " nmxwd ", 
+                  " NMX Devel ", 
+                  " Wiki+Spotify ", 
+                  " Other "}
+
+      return tagnames
+end
+
+function rcsupport.archtagnames()
+      tagnames = {" Internet ", 
+                  " E-mail ", 
+                  " Wiki ", 
+                  " Music ", 
+                  " Dev Any ", 
+                  " Capsd ", 
+                  " CV ", 
+                  " Neovim1 ", 
+                  " Neovim2 "}
+
+      return tagnames
+end
+
 return rcsupport
