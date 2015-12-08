@@ -123,9 +123,6 @@ function rcsupport.globalkeys(s)
 
     local focus_last = function(client)
         awful.client.focus.history.previous()
-        if client.focus then
-            client.focus:raise()
-        end
     end
 
     local new_terminal = function()
@@ -252,9 +249,11 @@ function rcsupport.globalkeys(s)
     end
 
     local globalkeys = awful.util.table.join(
+        awful.key({ s.modkey,           }, "Escape", last_tag),
         awful.key({ s.modkey,           }, "Left",  prev_tag),
         awful.key({ s.modkey,           }, "Right",  next_tag),
-        awful.key({ s.modkey,           }, "Escape", last_tag),
+        awful.key({ s.modkey, "Control" }, "h",  prev_tag),
+        awful.key({ s.modkey, "Control" }, "l",  next_tag),
         awful.key({ s.modkey,           }, "j", next_client),
         awful.key({ s.modkey,           }, "k", prev_client),
         awful.key({ s.modkey,           }, "w", show_menu),
