@@ -190,6 +190,11 @@ function rcsupport.globalkeys(s)
         awful.util.spawn("xrandr-dual.sh", false)
     end
 
+    local start_screensaver = function()
+        awful.util.spawn("xscreensaver-command -activate")
+        notify.info("Screensaver started!")
+    end
+
     local go_to_tag = function()
         notify.dbg(idx) 
         local screen = mouse.screen
@@ -287,6 +292,7 @@ function rcsupport.globalkeys(s)
 
         awful.key({ s.modkey,           }, "F1", set_laptop_display),
         awful.key({ s.modkey,           }, "F2", set_dual_display),
+        awful.key({ s.modkey,           }, "F12", start_screensaver),
 
         awful.key({ s.modkey,           }, "c", 
             function ()

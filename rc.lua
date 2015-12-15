@@ -43,20 +43,22 @@ s.layouts = {
 -- Tagnames, dependant on the number of screens
 local tagnames = {}
 if screen.count() == 1 then 
-    tagnames = { { " Intanetto ", " Code ", " Slask " } }
+    tagnames = { { " Intanetto ", " Code ", " Slask ", " Spottan " } }
 elseif screen.count() == 2 then
     tagnames = { 
-        { " Intanetto ", " Gaamu ", " Awesome ", " Conky ", " Lisp ", " Smartcaps ", " Pebble "},
+        { " Intanetto ", " Master ", " Editor ", " Debugger ", " Aux1 ", " Aux2 "},
         { " Slask ", " Log ", " Browser " } 
     }
 end
+
+awful.util.spawn_with_shell("xscreensaver -no-splash")
 
 -- Start composite window manager. Needed for transparent windows
 awful.util.spawn_with_shell("unagi &")
 
 -- Add and init beautiful, set the wallpaper
 s.beautiful = require("beautiful")
-s.beautiful.init("/home/rasmus/.config/awesome/themes/arch/theme.lua")
+s.beautiful.init("/home/rasmus/.config/awesome/themes/current/theme.lua")
 rcsupport.set_wallpaper(s)
 
 -- Add the menubar
