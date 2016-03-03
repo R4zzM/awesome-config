@@ -259,17 +259,17 @@ function rcsupport.globalkeys(s)
         awful.key({ s.modkey,           }, "Right",  next_tag),
         awful.key({ s.modkey, "Control" }, "h",  prev_tag),
         awful.key({ s.modkey, "Control" }, "l",  next_tag),
-        awful.key({ s.modkey,           }, "j", next_client),
-        awful.key({ s.modkey,           }, "k", prev_client),
+        awful.key({ s.modkey,           }, "j", prev_client),
+        awful.key({ s.modkey,           }, "k", next_client),
         awful.key({ s.modkey,           }, "w", show_menu),
         awful.key({ s.modkey,           }, "e", edit_rclua),
         awful.key({ s.modkey,           }, "d", print_selected_tag),
 
         -- Layout manipulation
-        awful.key({ s.modkey, "Shift"   }, "j", layout_next),
-        awful.key({ s.modkey, "Shift"   }, "k", layout_prev),
-        awful.key({ s.modkey, "Control" }, "j", focus_next),
-        awful.key({ s.modkey, "Control" }, "k", focus_prev),
+        awful.key({ s.modkey, "Shift"   }, "j", layout_prev),
+        awful.key({ s.modkey, "Shift"   }, "k", layout_next),
+        awful.key({ s.modkey, "Control" }, "j", focus_prev),
+        awful.key({ s.modkey, "Control" }, "k", focus_next),
         awful.key({ s.modkey,           }, "Tab", focus_last),
         awful.key({ s.modkey,           }, "u", jump_to_urgent),
 
@@ -419,6 +419,10 @@ function rcsupport.clientkeys(s)
         client.maximized_vertical   = not client.maximized_vertical
     end
 
+    local toggle_sticky = function(client)
+        client.sticky = not client.sticky
+    end
+
     local clientkeys = awful.util.table.join(
         awful.key({ s.modkey,           }, "f", toggle_fullscreen),
         awful.key({ s.modkey, "Shift"   }, "c", kill_client),
@@ -426,7 +430,8 @@ function rcsupport.clientkeys(s)
         awful.key({ s.modkey,           }, "o", move_to_next_screen),
         awful.key({ s.modkey,           }, "t", toggle_on_top),
         awful.key({ s.modkey,           }, "n", minimize),
-        awful.key({ s.modkey,           }, "m", maximize)
+        awful.key({ s.modkey,           }, "m", maximize),
+        awful.key({ s.modkey,           }, "s", toggle_sticky)
     )
 
     return clientkeys

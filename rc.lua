@@ -43,7 +43,7 @@ s.layouts = {
 -- Tagnames, dependant on the number of screens
 local tagnames = {}
 if screen.count() == 1 then 
-    tagnames = { { " Intanetto ", " Code ", " Slask ", " Spottan " } }
+    tagnames = { { "  Browser  ", "  ihu_vehiclefunctions  ", "  ihu_signals  ", "  ihu_profilemanager  ", "  ihu_settings  ", "  ihu_carconfig  ",  "  Hmi  ", "  E-mail  ", "  Daemons  " , "  NUC  "} }
 elseif screen.count() == 2 then
     tagnames = { 
         { " Intanetto ", " Master ", " Editor ", " Debugger ", " Aux1 ", " Aux2 "},
@@ -51,10 +51,10 @@ elseif screen.count() == 2 then
     }
 end
 
+-- Services that are dependant on display environment
 awful.util.spawn_with_shell("xscreensaver -no-splash")
-
--- Start composite window manager. Needed for transparent windows
-awful.util.spawn_with_shell("unagi &")
+awful.util.spawn_with_shell("redshift")
+awful.util.spawn_with_shell("unagi")
 
 -- Add and init beautiful, set the wallpaper
 s.beautiful = require("beautiful")
