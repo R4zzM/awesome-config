@@ -55,6 +55,8 @@ end
 awful.util.spawn_with_shell("xscreensaver -no-splash")
 awful.util.spawn_with_shell("redshift")
 awful.util.spawn_with_shell("unagi")
+awful.util.spawn_with_shell("parcellite")
+awful.util.spawn_with_shell("dropbox start")
 
 -- Add and init beautiful, set the wallpaper
 s.beautiful = require("beautiful")

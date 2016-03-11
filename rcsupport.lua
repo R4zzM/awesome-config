@@ -490,6 +490,7 @@ function rcsupport.create_widgets(s)
     widgets.separator:set_text(" - ")
     widgets.volumewidget = wibox.widget.textbox()
     widgets.batterywidget = wibox.widget.textbox()
+    widgets.systray = wibox.widget.systray()
 
     -- Create a promptbox for each screen
     for i = 1,screen.count() do
@@ -584,6 +585,8 @@ function rcsupport.create_wibox_layouts(widgets)
         topmiddle:fill_space(true)
         topmiddle:add(widgets.promptbox[i])
 
+        topright:add(widgets.spacing)
+        topright:add(widgets.systray)
         topright:add(widgets.spacing)
         topright:add(widgets.batterywidget)
         topright:add(widgets.separator)
